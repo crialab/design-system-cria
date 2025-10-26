@@ -37,12 +37,16 @@
     "release:major": "npm run version:major && npm run version:tag"
   },
   "dependencies": {
+    "@radix-ui/react-slot": "^1.2.3",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
     "phosphor-react": "^1.4.1",
     "react": ">=17",
     "react-dom": ">=17",
-    "recharts": "^3.2.1"
+    "recharts": "^3.2.1",
+    "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.9.1",
