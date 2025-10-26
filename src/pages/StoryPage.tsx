@@ -27,6 +27,54 @@ const StoryPage: React.FC<StoryPageProps> = ({
   const scrollLockRef = React.useRef<boolean>(false);
   const videoRef = React.useRef<HTMLVideoElement>(null);
 
+  // Detect source from URL parameters or referrer
+  const getBackUrl = React.useCallback(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const source = urlParams.get('source');
+    const referrer = document.referrer;
+
+    // Priority: URL parameter > referrer detection > fallback
+    if (source) {
+      switch (source.toLowerCase()) {
+        case 'whatsapp':
+          // Detect if user is on iOS and try to open WhatsApp app
+          const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+          if (isIOS) {
+            return 'whatsapp://'; // Opens WhatsApp app on iOS
+          }
+          return 'https://wa.me/your-whatsapp-number';
+        case 'instagram':
+          return 'https://www.instagram.com/cr_ia.pro/';
+        case 'telegram':
+          return 'https://t.me/your-telegram-channel';
+        case 'facebook':
+          return 'https://www.facebook.com/your-page';
+        case 'twitter':
+          return 'https://twitter.com/your-handle';
+        default:
+          return 'https://www.instagram.com/cr_ia.pro/';
+      }
+    }
+
+    // Fallback: detect from referrer
+    if (referrer) {
+      if (referrer.includes('whatsapp')) {
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        if (isIOS) {
+          return 'whatsapp://'; // Opens WhatsApp app on iOS
+        }
+        return 'https://wa.me/your-whatsapp-number';
+      }
+      if (referrer.includes('instagram')) return 'https://www.instagram.com/cr_ia.pro/';
+      if (referrer.includes('telegram')) return 'https://t.me/your-telegram-channel';
+      if (referrer.includes('facebook')) return 'https://www.facebook.com/your-page';
+      if (referrer.includes('twitter')) return 'https://twitter.com/your-handle';
+    }
+
+    // Final fallback
+    return 'https://www.instagram.com/cr_ia.pro/';
+  }, []);
+
   // Playlist support: current index and list of videos
   const videos = React.useMemo(() => [
     '/src/assets/video_2.mp4',
@@ -268,7 +316,7 @@ const StoryPage: React.FC<StoryPageProps> = ({
       {/* Back button - Bottom left */}
       <div className="absolute bottom-0 left-0 p-4 z-30" style={{ position: 'absolute', bottom: 0, left: 0, padding: '16px', zIndex: 30 }}>
         <a
-          href="https://www.instagram.com/reel/DPmpT9ggj8h/"
+          href={getBackUrl()}
           target="_blank"
           rel="noopener noreferrer"
           className="bg-black/60 rounded-full px-4 py-2 flex items-center gap-2 text-white hover:bg-black/80 transition-colors"
