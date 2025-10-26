@@ -46,7 +46,7 @@ const StoryPage: React.FC<StoryPageProps> = ({
         case 'instagram':
           return 'https://www.instagram.com/cr_ia.pro/';
         case 'telegram':
-          return 'https://t.me/your-telegram-channel';
+          return 'https://t.me/your-telegram-channela';
         case 'facebook':
           return 'https://www.facebook.com/your-page';
         case 'twitter':
